@@ -18,6 +18,11 @@ public class DepartmentRepository implements GenericRepository<Department> {
     }
 
     @Override
+    public ArrayList<Department> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Department entityOld, Department entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -31,5 +36,10 @@ public class DepartmentRepository implements GenericRepository<Department> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Department entity) {
+        return storage.indexOf(entity);
     }
 }

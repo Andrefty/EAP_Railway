@@ -19,6 +19,11 @@ public class EmployeeRepository implements GenericRepository<Employee> {
     }
 
     @Override
+    public ArrayList<Employee> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Employee entityOld, Employee entityNew) {
 storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -31,5 +36,10 @@ storage.remove(entity);
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Employee entity) {
+        return storage.indexOf(entity);
     }
 }

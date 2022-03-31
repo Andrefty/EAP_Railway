@@ -17,6 +17,11 @@ public class TicketRepository implements GenericRepository<Ticket> {
     }
 
     @Override
+    public ArrayList<Ticket> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Ticket entityOld, Ticket entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -29,5 +34,10 @@ public class TicketRepository implements GenericRepository<Ticket> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Ticket entity) {
+        return storage.indexOf(entity);
     }
 }

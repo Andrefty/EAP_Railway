@@ -17,6 +17,11 @@ public class TrainRepository implements GenericRepository<Train> {
     }
 
     @Override
+    public ArrayList<Train> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Train entityOld, Train entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -29,5 +34,10 @@ public class TrainRepository implements GenericRepository<Train> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Train entity) {
+        return storage.indexOf(entity);
     }
 }

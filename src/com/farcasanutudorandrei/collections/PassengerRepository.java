@@ -17,6 +17,11 @@ public class PassengerRepository implements GenericRepository<Passenger> {
     }
 
     @Override
+    public ArrayList<Passenger> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Passenger entityOld, Passenger entityNew) {
 storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -29,5 +34,10 @@ storage.remove(entity);
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Passenger entity) {
+        return storage.indexOf(entity);
     }
 }

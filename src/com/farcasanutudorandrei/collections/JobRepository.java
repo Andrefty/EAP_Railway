@@ -17,6 +17,11 @@ public class JobRepository implements GenericRepository<Job> {
     }
 
     @Override
+    public ArrayList<Job> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Job entityOld, Job entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -29,5 +34,10 @@ public class JobRepository implements GenericRepository<Job> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Job entity) {
+        return storage.indexOf(entity);
     }
 }

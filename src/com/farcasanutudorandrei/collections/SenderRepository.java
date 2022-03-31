@@ -19,6 +19,11 @@ public class SenderRepository implements GenericRepository<Sender> {
     }
 
     @Override
+    public ArrayList<Sender> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Sender entityOld, Sender entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -31,5 +36,10 @@ public class SenderRepository implements GenericRepository<Sender> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Sender entity) {
+        return storage.indexOf(entity);
     }
 }

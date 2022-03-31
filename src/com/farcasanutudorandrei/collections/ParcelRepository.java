@@ -18,6 +18,11 @@ public class ParcelRepository implements GenericRepository<Parcel> {
     }
 
     @Override
+    public ArrayList<Parcel> getAll() {
+        return storage;
+    }
+
+    @Override
     public void update(Parcel entityOld, Parcel entityNew) {
         storage.set(storage.indexOf(entityOld),entityNew);
     }
@@ -30,5 +35,10 @@ public class ParcelRepository implements GenericRepository<Parcel> {
     @Override
     public int getSize() {
         return storage.size();
+    }
+
+    @Override
+    public int getIndex(Parcel entity) {
+        return storage.indexOf(entity);
     }
 }

@@ -6,6 +6,7 @@ import com.farcasanutudorandrei.service.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -140,7 +141,83 @@ public class Main {
 
     private int addTrain() {
         int id=-1;
-
+        System.out.print("departureDate(yyyy-MM-dd HH:mm)=");
+        String stringdepartureDate = s.nextLine();
+        Date departureDate;
+        Station initialStation;
+        Station destinationStation;
+        ArrayList<Employee> trainEmployees = new ArrayList<Employee>();
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            departureDate = df.parse(stringdepartureDate);
+        } catch (ParseException e) {
+            System.out.println("Wrong date format!");
+            e.printStackTrace();
+            return id;
+        }
+        System.out.println("Pick initialStation:");
+        if (service.getStationSize() == 0) {
+            System.out.println("No station available. Add a station? (y/n)");
+            String answer = s.nextLine();
+            if (answer.equals("y")) {
+                try {
+                    initialStation = service.getStation(addStation());
+                } catch (RuntimeException e) {
+                    System.out.println("Invalid station. Try again");
+                    return id;
+                }
+            } else return id;
+        } else {
+            service.listStations();
+            System.out.print("initialStationId=");
+            int initialStationId = readInt();
+            initialStation = service.getStation(initialStationId);
+        }
+        System.out.println("Pick destinationStation:");
+        if (service.getStationSize() == 0) {
+            System.out.println("No station available. Add a station? (y/n)");
+            String answer = s.nextLine();
+            if (answer.equals("y")) {
+                try {
+                    destinationStation = service.getStation(addStation());
+                } catch (RuntimeException e) {
+                    System.out.println("Invalid station. Try again");
+                    return id;
+                }
+            } else return id;
+        } else {
+            service.listStations();
+            System.out.print("destinationStationId=");
+            int destinationStationId = readInt();
+            destinationStation = service.getStation(destinationStationId);
+        }
+        System.out.print("Do you want to assign employees? (y/n)");
+//todo: make adding multiple employees to train possible
+        String answer = s.nextLine();
+        if (answer.equals("y")) {
+            System.out.println("Pick employees:");
+            if (service.getEmployeeSize() == 0) {
+                System.out.println("No employees available. Add a employee? (y/n)");
+                String answer1 = s.nextLine();
+                if (answer1.equals("y")) {
+                    try {
+                        trainEmployees.add(service.getEmployee(addEmployee()));
+                    } catch (RuntimeException e) {
+                        System.out.println("Invalid employee. Try again");
+                    }
+                } else return id;
+            } else {
+                service.listEmployees();
+                System.out.print("employeeId=");
+                int employeeId = readInt();
+                trainEmployees.add(service.getEmployee(employeeId));
+            }
+        }
+        try {
+            id = service.addTrain(new Train(trainEmployees,destinationStation,initialStation,departureDate));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
+        }
         return id;
     }
 

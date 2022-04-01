@@ -140,7 +140,7 @@ public class Main {
     }
 
     private int addTrain() {
-        int id=-1;
+        int id = -1;
         System.out.print("departureDate(yyyy-MM-dd HH:mm)=");
         String stringdepartureDate = s.nextLine();
         Date departureDate;
@@ -195,7 +195,6 @@ public class Main {
 //todo: make adding multiple employees to train possible
         String answer = s.nextLine();
         if (answer.equals("y")) {
-            System.out.println("Pick employees:");
             if (service.getEmployeeSize() == 0) {
                 System.out.println("No employees available. Add a employee? (y/n)");
                 String answer1 = s.nextLine();
@@ -207,14 +206,20 @@ public class Main {
                     }
                 } else return id;
             } else {
+                System.out.println("How many employees? (Maximum: " + service.getEmployeeSize() + ")");
+                int ans = readInt();
+                System.out.println("Pick employees:");
                 service.listEmployees();
-                System.out.print("employeeId=");
-                int employeeId = readInt();
-                trainEmployees.add(service.getEmployee(employeeId));
+                for (int i = 0; i < ans; i++) {
+                    System.out.print("employeeId=");
+                    int employeeId = readInt();
+                    trainEmployees.add(service.getEmployee(employeeId));
+                }
+
             }
         }
         try {
-            id = service.addTrain(new Train(trainEmployees,destinationStation,initialStation,departureDate));
+            id = service.addTrain(new Train(trainEmployees, destinationStation, initialStation, departureDate));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
@@ -222,11 +227,11 @@ public class Main {
     }
 
     private int addTicket() {
-        int id=-1;
+        int id = -1;
         System.out.print("price=");
         double price = s.nextDouble();
         s.nextLine();
-        Train train ;
+        Train train;
         Passenger passenger;
         System.out.println("Pick a train:");
         if (service.getTrainSize() == 0) {
@@ -241,7 +246,7 @@ public class Main {
                 }
             } else return id;
         } else {
-            service.listSenders();
+            service.listTrains();
             System.out.print("trainId=");
             int trainId = readInt();
             train = service.getTrain(trainId);
@@ -265,7 +270,7 @@ public class Main {
             passenger = service.getPassenger(passengerId);
         }
         try {
-            id = service.addTicket(new Ticket(train,passenger, price));
+            id = service.addTicket(new Ticket(train, passenger, price));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }

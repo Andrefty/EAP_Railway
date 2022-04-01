@@ -1,6 +1,7 @@
 # ProiectEAP
 Proiectul încearcă să implemeneteze un sistem de gestiune pentru o companie feroviara, care pe lângă transportul de pasageri, oferă și un serviciu de curierat între stații.
 Pentru Stage 1, diagrama reprezintă relativ înlănțuirea dintre entități.
+
 ## Domain
 Entitățile folosite sunt:
 - Department
@@ -29,5 +30,5 @@ Conține clasele ce stochează datele folosite în aplicație:
   - TrainRepository
 ## Services
   Clasa Service conține deocamdată operațiile de adăugare a diverselor entități și de afișare a lor.
-##View
+## View
 Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate. 

@@ -192,7 +192,6 @@ public class Main {
             destinationStation = service.getStation(destinationStationId);
         }
         System.out.print("Do you want to assign employees? (y/n)");
-//todo: make adding multiple employees to train possible
         String answer = s.nextLine();
         if (answer.equals("y")) {
             if (service.getEmployeeSize() == 0) {

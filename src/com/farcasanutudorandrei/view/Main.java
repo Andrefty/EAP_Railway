@@ -5,6 +5,7 @@ import com.farcasanutudorandrei.service.Service;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -30,7 +31,9 @@ public class Main {
         System.out.println("4. list employees");
         System.out.println("5. add job");
         System.out.println("6. list jobs");
-        System.out.println("7. exit");
+        System.out.println("7. add parcel");
+        System.out.println("8. list parcels");
+        System.out.println("99. exit");
     }
 
     private int readOption() {
@@ -89,6 +92,7 @@ public class Main {
         int id = -1;
         System.out.print("weight=");
         double weight = s.nextDouble();
+        s.nextLine();
         Sender sender;
         Sender receiver;
         Station departureStation;
@@ -107,8 +111,8 @@ public class Main {
         }
         service.listSenders();
         System.out.print("senderId=");
-        int senderId = s.nextInt();
-        sender=service.getSender(senderId);
+        int senderId = readInt();
+        sender = service.getSender(senderId);
         System.out.println("Pick receiver:");
         if (service.getSenderSize() == 0) {
             System.out.println("No receiver available. Add a receiver? (y/n)");
@@ -123,8 +127,8 @@ public class Main {
         }
         service.listSenders();
         System.out.print("receiverId=");
-        int receiverId = s.nextInt();
-        receiver=service.getSender(receiverId);
+        int receiverId = readInt();
+        receiver = service.getSender(receiverId);
         System.out.println("Pick departureStation:");
         if (service.getStationSize() == 0) {
             System.out.println("No station available. Add a station? (y/n)");
@@ -139,8 +143,8 @@ public class Main {
         }
         service.listStations();
         System.out.print("departureStationId=");
-        int departureStationId = s.nextInt();
-        departureStation=service.getStation(departureStationId);
+        int departureStationId = readInt();
+        departureStation = service.getStation(departureStationId);
         System.out.println("Pick destinationStation:");
         if (service.getStationSize() == 0) {
             System.out.println("No station available. Add a station? (y/n)");
@@ -155,10 +159,10 @@ public class Main {
         }
         service.listStations();
         System.out.print("destinationStationId=");
-        int destinationStationId = s.nextInt();
-        destinationStation=service.getStation(destinationStationId);
+        int destinationStationId = readInt();
+        destinationStation = service.getStation(destinationStationId);
         try {
-            id = service.addParcel(new Parcel(sender,receiver,departureStation,destinationStation,weight));
+            id = service.addParcel(new Parcel(sender, receiver, departureStation, destinationStation, weight));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
@@ -179,27 +183,78 @@ public class Main {
 
     private int addEmployee() {
         int id = -1;
-        System.out.print("salary=");
-        double salary = s.nextDouble();
-        System.out.print("hireDate=");
+        System.out.print("name=");
+        String name = s.nextLine();
+        System.out.print("firstName=");
+        String firstName = s.nextLine();
+        System.out.print("email=");
+        String email = s.nextLine();
+        System.out.print("CNP=");
+        String cnp = s.nextLine();
+        System.out.print("hireDate(yyyy-MM-dd)=");
         String stringhireDate = s.nextLine();
+        Date hireDate;
         try {
-            Date hireDate = DateFormat.getDateInstance().parse(stringhireDate);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            hireDate = df.parse(stringhireDate);
         } catch (ParseException e) {
             System.out.println("Wrong date format!");
             e.printStackTrace();
+            return id;
         }
+        System.out.print("salary=");
+        double salary = s.nextDouble();
+        s.nextLine();
         System.out.print("phoneNumber=");
         String phoneNumber = s.nextLine();
+        Job job;
+        Department department;
         System.out.println("Do you want to assign a job? (y/n)");
         String answer = s.nextLine();
         if (answer.equals("y")) {
-//            todo
-        }
+
+            System.out.println("Pick job:");
+            if (service.getJobSize() == 0) {
+                System.out.println("No job available. Add a job? (y/n)");
+                String answer1 = s.nextLine();
+                if (answer1.equals("y")) {
+                    try {
+                        job = service.getJob(addJob());
+                    } catch (RuntimeException e) {
+                        System.out.println("Invalid job. Try again");
+                    }
+                } else return id;
+            }
+            service.listJobs();
+            System.out.print("jobId=");
+            int jobId = readInt();
+            job = service.getJob(jobId);
+        } else return id;
         System.out.println("Do you want to assign a department to this employee? (y/n)");
         String answer2 = s.nextLine();
         if (answer2.equals("y")) {
-//            todo
+
+            System.out.println("Pick department:");
+            if (service.getDepartmentSize() == 0) {
+                System.out.println("No department available. Add a department? (y/n)");
+                String answer1 = s.nextLine();
+                if (answer1.equals("y")) {
+                    try {
+                        department = service.getDepartment(addDepartment());
+                    } catch (RuntimeException e) {
+                        System.out.println("Invalid department. Try again");
+                    }
+                } else return id;
+            }
+            service.listDepartments();
+            System.out.print("departmentId=");
+            int departmentId = readInt();
+            department = service.getDepartment(departmentId);
+        } else return id;
+        try {
+            id = service.addEmployee(new Employee(name, firstName, email, cnp, salary, hireDate, phoneNumber, job, department));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
         }
         return id;
     }
@@ -208,10 +263,31 @@ public class Main {
         int id = -1;
         System.out.print("name=");
         String name = s.nextLine();
+        Employee manager = null;
         System.out.print("Do you want to assign manager? (y/n)");
         String answer = s.nextLine();
         if (answer.equals("y")) {
-//            todo
+            System.out.println("Pick manager:");
+            if (service.getEmployeeSize() == 0) {
+                System.out.println("No employees available. Add a employee? (y/n)");
+                String answer1 = s.nextLine();
+                if (answer1.equals("y")) {
+                    try {
+                        manager = service.getEmployee(addEmployee());
+                    } catch (RuntimeException e) {
+                        System.out.println("Invalid employee. Try again");
+                    }
+                } else return id;
+            }
+            service.listEmployees();
+            System.out.print("employeeId=");
+            int employeeId = readInt();
+            manager = service.getEmployee(employeeId);
+        } 
+        try {
+            id = service.addDepartment(new Department(name, manager));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
         }
         return id;
     }

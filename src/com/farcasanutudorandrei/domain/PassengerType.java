@@ -1,6 +1,6 @@
 package com.farcasanutudorandrei.domain;
 
-public enum PassangerType {
+public enum PassengerType {
     ADULT,
     COPIL,
     INFANT,

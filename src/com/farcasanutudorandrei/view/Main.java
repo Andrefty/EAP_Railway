@@ -33,6 +33,8 @@ public class Main {
         System.out.println("6. list jobs");
         System.out.println("7. add parcel");
         System.out.println("8. list parcels");
+        System.out.println("9. add passenger");
+        System.out.println("10. list passengers");
         System.out.println("99. exit");
     }
 
@@ -83,9 +85,41 @@ public class Main {
                 // list entities
                 service.listParcels();
                 break;
+            case 9:
+                // add entity
+                addPassenger();
+                break;
+            case 10:
+                // list entities
+                service.listPassengers();
+                break;
             case 99:
                 System.exit(0);
         }
+    }
+
+    private int addPassenger() {
+        int id = -1;
+        System.out.print("name=");
+        String name = s.nextLine();
+        System.out.print("firstName=");
+        String firstName = s.nextLine();
+        System.out.print("email=");
+        String email = s.nextLine();
+        System.out.print("CNP=");
+        String cnp = s.nextLine();
+        System.out.print("PassengerType=");
+        try {
+            PassengerType passengerType = PassengerType.valueOf(s.nextLine());
+            try {
+                id = service.addPassenger(new Passenger(name, firstName, email, cnp, passengerType));
+            } catch (RuntimeException addError) {
+                System.out.println("Add error!");
+            }
+        } catch (RuntimeException invalidPassengerType) {
+            System.out.println("Invalid passengerType!");
+        }
+        return id;
     }
 
     private int addParcel() {
@@ -106,13 +140,15 @@ public class Main {
                     sender = service.getSender(addSender());
                 } catch (RuntimeException e) {
                     System.out.println("Invalid sender. Try again");
+                    return id;
                 }
             } else return id;
+        } else {
+            service.listSenders();
+            System.out.print("senderId=");
+            int senderId = readInt();
+            sender = service.getSender(senderId);
         }
-        service.listSenders();
-        System.out.print("senderId=");
-        int senderId = readInt();
-        sender = service.getSender(senderId);
         System.out.println("Pick receiver:");
         if (service.getSenderSize() == 0) {
             System.out.println("No receiver available. Add a receiver? (y/n)");
@@ -122,13 +158,15 @@ public class Main {
                     receiver = service.getSender(addSender());
                 } catch (RuntimeException e) {
                     System.out.println("Invalid receiver. Try again");
+                    return id;
                 }
             } else return id;
+        } else {
+            service.listSenders();
+            System.out.print("receiverId=");
+            int receiverId = readInt();
+            receiver = service.getSender(receiverId);
         }
-        service.listSenders();
-        System.out.print("receiverId=");
-        int receiverId = readInt();
-        receiver = service.getSender(receiverId);
         System.out.println("Pick departureStation:");
         if (service.getStationSize() == 0) {
             System.out.println("No station available. Add a station? (y/n)");
@@ -138,13 +176,15 @@ public class Main {
                     departureStation = service.getStation(addStation());
                 } catch (RuntimeException e) {
                     System.out.println("Invalid station. Try again");
+                    return id;
                 }
             } else return id;
+        } else {
+            service.listStations();
+            System.out.print("departureStationId=");
+            int departureStationId = readInt();
+            departureStation = service.getStation(departureStationId);
         }
-        service.listStations();
-        System.out.print("departureStationId=");
-        int departureStationId = readInt();
-        departureStation = service.getStation(departureStationId);
         System.out.println("Pick destinationStation:");
         if (service.getStationSize() == 0) {
             System.out.println("No station available. Add a station? (y/n)");
@@ -154,13 +194,15 @@ public class Main {
                     destinationStation = service.getStation(addStation());
                 } catch (RuntimeException e) {
                     System.out.println("Invalid station. Try again");
+                    return id;
                 }
             } else return id;
+        } else {
+            service.listStations();
+            System.out.print("destinationStationId=");
+            int destinationStationId = readInt();
+            destinationStation = service.getStation(destinationStationId);
         }
-        service.listStations();
-        System.out.print("destinationStationId=");
-        int destinationStationId = readInt();
-        destinationStation = service.getStation(destinationStationId);
         try {
             id = service.addParcel(new Parcel(sender, receiver, departureStation, destinationStation, weight));
         } catch (RuntimeException addError) {
@@ -222,13 +264,15 @@ public class Main {
                         job = service.getJob(addJob());
                     } catch (RuntimeException e) {
                         System.out.println("Invalid job. Try again");
+                        return id;
                     }
                 } else return id;
+            } else {
+                service.listJobs();
+                System.out.print("jobId=");
+                int jobId = readInt();
+                job = service.getJob(jobId);
             }
-            service.listJobs();
-            System.out.print("jobId=");
-            int jobId = readInt();
-            job = service.getJob(jobId);
         } else return id;
         System.out.println("Do you want to assign a department to this employee? (y/n)");
         String answer2 = s.nextLine();
@@ -243,13 +287,15 @@ public class Main {
                         department = service.getDepartment(addDepartment());
                     } catch (RuntimeException e) {
                         System.out.println("Invalid department. Try again");
+                        return id;
                     }
                 } else return id;
+            } else {
+                service.listDepartments();
+                System.out.print("departmentId=");
+                int departmentId = readInt();
+                department = service.getDepartment(departmentId);
             }
-            service.listDepartments();
-            System.out.print("departmentId=");
-            int departmentId = readInt();
-            department = service.getDepartment(departmentId);
         } else return id;
         try {
             id = service.addEmployee(new Employee(name, firstName, email, cnp, salary, hireDate, phoneNumber, job, department));
@@ -278,12 +324,13 @@ public class Main {
                         System.out.println("Invalid employee. Try again");
                     }
                 } else return id;
+            } else {
+                service.listEmployees();
+                System.out.print("employeeId=");
+                int employeeId = readInt();
+                manager = service.getEmployee(employeeId);
             }
-            service.listEmployees();
-            System.out.print("employeeId=");
-            int employeeId = readInt();
-            manager = service.getEmployee(employeeId);
-        } 
+        }
         try {
             id = service.addDepartment(new Department(name, manager));
         } catch (RuntimeException addError) {

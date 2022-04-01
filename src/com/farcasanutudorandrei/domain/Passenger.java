@@ -4,18 +4,18 @@ import java.util.Objects;
 
 public class Passenger extends Person {
 
-    private PassangerType passengerType;
+    private PassengerType passengerType;
 
-    public Passenger(String name, String firstName, String email, String CNP, PassangerType passengerType) {
+    public Passenger(String name, String firstName, String email, String CNP, PassengerType passengerType) {
         super(name, firstName, email, CNP);
         this.passengerType = passengerType;
     }
 
-    public PassangerType getPassengerType() {
+    public PassengerType getPassengerType() {
         return passengerType;
     }
 
-    public void setPassengerType(PassangerType passengerType) {
+    public void setPassengerType(PassengerType passengerType) {
         this.passengerType = passengerType;
     }
 

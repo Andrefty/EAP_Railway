@@ -35,6 +35,14 @@ public class Main {
         System.out.println("8. list parcels");
         System.out.println("9. add passenger");
         System.out.println("10. list passengers");
+        System.out.println("11. add sender");
+        System.out.println("12. list senders");
+        System.out.println("13. add station");
+        System.out.println("14. list stations");
+        System.out.println("15. add ticket");
+        System.out.println("16. list tickets");
+        System.out.println("17. add train");
+        System.out.println("18. list trains");
         System.out.println("99. exit");
     }
 
@@ -93,9 +101,98 @@ public class Main {
                 // list entities
                 service.listPassengers();
                 break;
+            case 11:
+                // add entity
+                addSender();
+                break;
+            case 12:
+                // list entities
+                service.listSenders();
+                break;
+            case 13:
+                // add entity
+                addStation();
+                break;
+            case 14:
+                // list entities
+                service.listStations();
+                break;
+            case 15:
+                // add entity
+                addTicket();
+                break;
+            case 16:
+                // list entities
+                service.listTickets();
+                break;
+            case 17:
+                // add entity
+                addTrain();
+                break;
+            case 18:
+                // list entities
+                service.listTrains();
+                break;
             case 99:
                 System.exit(0);
         }
+    }
+
+    private int addTrain() {
+        int id=-1;
+
+        return id;
+    }
+
+    private int addTicket() {
+        int id=-1;
+        System.out.print("price=");
+        double price = s.nextDouble();
+        s.nextLine();
+        Train train ;
+        Passenger passenger;
+        System.out.println("Pick a train:");
+        if (service.getTrainSize() == 0) {
+            System.out.println("No train available. Add a train? (y/n)");
+            String answer = s.nextLine();
+            if (answer.equals("y")) {
+                try {
+                    train = service.getTrain(addTrain());
+                } catch (RuntimeException e) {
+                    System.out.println("Invalid train. Try again");
+                    return id;
+                }
+            } else return id;
+        } else {
+            service.listSenders();
+            System.out.print("trainId=");
+            int trainId = readInt();
+            train = service.getTrain(trainId);
+        }
+        System.out.println("Pick a passenger:");
+        if (service.getPassengerSize() == 0) {
+            System.out.println("No passenger available. Add a passenger? (y/n)");
+            String answer1 = s.nextLine();
+            if (answer1.equals("y")) {
+                try {
+                    passenger = service.getPassenger(addPassenger());
+                } catch (RuntimeException e) {
+                    System.out.println("Invalid passenger. Try again");
+                    return id;
+                }
+            } else return id;
+        } else {
+            service.listPassengers();
+            System.out.print("passengerId=");
+            int passengerId = readInt();
+            passenger = service.getPassenger(passengerId);
+        }
+        try {
+            id = service.addTicket(new Ticket(train,passenger, price));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
+        }
+        return id;
     }
 
     private int addPassenger() {
@@ -213,13 +310,35 @@ public class Main {
 
     private int addStation() {
         int id = -1;
-//        todo
+        System.out.print("name=");
+        String name = s.nextLine();
+        System.out.print("address=");
+        String address = s.nextLine();
+        try {
+            id = service.addStation(new Station(name, address));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
+        }
         return id;
     }
 
     private int addSender() {
         int id = -1;
-//        todo
+        System.out.print("name=");
+        String name = s.nextLine();
+        System.out.print("firstName=");
+        String firstName = s.nextLine();
+        System.out.print("email=");
+        String email = s.nextLine();
+        System.out.print("CNP=");
+        String cnp = s.nextLine();
+        System.out.println("phoneNumber=");
+        String phoneNumber = s.nextLine();
+        try {
+            id = service.addSender(new Sender(name, firstName, email, cnp, phoneNumber));
+        } catch (RuntimeException addError) {
+            System.out.println("Add error!");
+        }
         return id;
     }
 

@@ -14,6 +14,22 @@ public class Service {
     private TicketRepository ticketRepository = new TicketRepository();
     private TrainRepository trainRepository = new TrainRepository();
 
+    public Passenger getPassenger(int id) {
+        return passengerRepository.get(id);
+    }
+
+    public int getPassengerSize() {
+        return passengerRepository.getSize();
+    }
+
+    public Train getTrain(int id) {
+        return trainRepository.get(id);
+    }
+
+    public int getTrainSize() {
+        return trainRepository.getSize();
+    }
+
     public Department getDepartment(int id) {
         return departmentRepository.get(id);
     }

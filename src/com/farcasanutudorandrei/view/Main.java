@@ -44,6 +44,7 @@ public class Main {
         System.out.println("16. list tickets");
         System.out.println("17. add train");
         System.out.println("18. list trains");
+        System.out.println("19. show passengers that travel on a given train");
         System.out.println("99. exit");
     }
 
@@ -134,8 +135,27 @@ public class Main {
                 // list entities
                 service.listTrains();
                 break;
+            case 19:
+                // show passengers that travel on a given train
+                showPassengersOnTrain();
+                break;
             case 99:
                 System.exit(0);
+        }
+    }
+
+    private void showPassengersOnTrain() {
+        System.out.println("Enter trainNumber:");
+        service.listTrains();
+        int trainNumber = readInt();
+        for (int i = 0; i < service.getTrainSize(); i++) {
+            if (service.getTrain(i).getTrainNumber() == trainNumber) {
+                for (int j = 0; j < service.getTicketSize(); j++) {
+                    if (service.getTicket(j).getTrain().equals(service.getTrain(i))) {
+                        System.out.println(service.getTicket(j).getPassenger());
+                    }
+                }
+            }
         }
     }
 

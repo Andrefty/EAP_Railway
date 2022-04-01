@@ -3,6 +3,8 @@ package com.farcasanutudorandrei.service;
 import com.farcasanutudorandrei.collections.*;
 import com.farcasanutudorandrei.domain.*;
 
+import java.util.ArrayList;
+
 public class Service {
     private DepartmentRepository departmentRepository = new DepartmentRepository();
     private EmployeeRepository employeeRepository = new EmployeeRepository();
@@ -13,6 +15,14 @@ public class Service {
     private StationRepository stationRepository = new StationRepository();
     private TicketRepository ticketRepository = new TicketRepository();
     private TrainRepository trainRepository = new TrainRepository();
+
+    public Ticket getTicket(int id) {
+        return ticketRepository.get(id);
+    }
+
+    public int getTicketSize() {
+        return ticketRepository.getSize();
+    }
 
     public Passenger getPassenger(int id) {
         return passengerRepository.get(id);

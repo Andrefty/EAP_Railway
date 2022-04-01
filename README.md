@@ -31,4 +31,5 @@ Conține clasele ce stochează datele folosite în aplicație:
 ## Services
   Clasa Service conține deocamdată operațiile de adăugare a diverselor entități și de afișare a lor.
 ## View
-Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate. 
+Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate.
+De asemenea, exista o optiune ce afiseaza pasagerii care calatoresc cu un anumit tren.

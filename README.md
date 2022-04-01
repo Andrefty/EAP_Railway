@@ -1,7 +1,7 @@
 # ProiectEAP
 Proiectul încearcă să implemeneteze un sistem de gestiune pentru o companie feroviara, care pe lângă transportul de pasageri, oferă și un serviciu de curierat între stații.
 Pentru Stage 1, diagrama reprezintă relativ înlănțuirea dintre entități.
-![](Diagrama stage 1.drawio.svg)
+![](Diagrama_stage_1.drawio.svg)
 ## Domain
 Entitățile folosite sunt:
 - Department

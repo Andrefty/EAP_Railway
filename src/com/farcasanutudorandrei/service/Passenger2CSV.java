@@ -9,7 +9,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Passenger2CSV implements GenericCSVIO<Passenger> {
-    private Service service = new Service();
     private AuditService auditService = AuditService.getInstance();
     private static final Passenger2CSV instance = new Passenger2CSV();
 

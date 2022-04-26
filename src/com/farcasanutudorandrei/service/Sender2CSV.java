@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Sender2CSV implements GenericCSVIO<Sender> {
-    private Service service = new Service();
     private AuditService auditService = AuditService.getInstance();
     private static final Sender2CSV instance = new Sender2CSV();
 

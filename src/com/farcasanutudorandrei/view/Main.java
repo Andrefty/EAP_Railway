@@ -1,10 +1,7 @@
 package com.farcasanutudorandrei.view;
 
 import com.farcasanutudorandrei.domain.*;
-import com.farcasanutudorandrei.service.Job2CSV;
-import com.farcasanutudorandrei.service.Passenger2CSV;
-import com.farcasanutudorandrei.service.Sender2CSV;
-import com.farcasanutudorandrei.service.Service;
+import com.farcasanutudorandrei.service.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +19,7 @@ public class Main {
     private Job2CSV job2csv = Job2CSV.getInstance();
     private Passenger2CSV passenger2csv = Passenger2CSV.getInstance();
     private Sender2CSV sender2CSV = Sender2CSV.getInstance();
+    private Station2CSV station2CSV = Station2CSV.getInstance();
 
     private void loadJobs() {
         File file = new File("Job.csv");
@@ -53,11 +51,21 @@ public class Main {
         }
     }
 
+    private void loadStations() {
+        File file = new File("Station.csv");
+        if (file.exists()) {
+            ArrayList<Station> stations = station2CSV.load("Station.csv");
+            for (Station station : stations) {
+                service.addStation(station);
+            }
+        }
+    }
     public static void main(String args[]) {
         Main app = new Main();
         app.loadJobs();
         app.loadPassengers();
         app.loadSender();
+        app.loadStations();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -459,6 +467,7 @@ public class Main {
         String address = s.nextLine();
         try {
             id = service.addStation(new Station(name, address));
+            station2CSV.add("Station.csv", new Station(name, address));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }

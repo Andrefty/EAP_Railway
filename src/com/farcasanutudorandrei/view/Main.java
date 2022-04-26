@@ -1,8 +1,13 @@
 package com.farcasanutudorandrei.view;
 
 import com.farcasanutudorandrei.domain.*;
+import com.farcasanutudorandrei.service.Job2CSV;
+import com.farcasanutudorandrei.service.Passenger2CSV;
+import com.farcasanutudorandrei.service.Sender2CSV;
 import com.farcasanutudorandrei.service.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,9 +19,45 @@ public class Main {
 
     private Scanner s = new Scanner(System.in);
     private Service service = new Service();
+    private Job2CSV job2csv = Job2CSV.getInstance();
+    private Passenger2CSV passenger2csv = Passenger2CSV.getInstance();
+    private Sender2CSV sender2CSV = Sender2CSV.getInstance();
+
+    private void loadJobs() {
+        File file = new File("Job.csv");
+        if (file.exists()) {
+            ArrayList<Job> jobs = job2csv.load("Job.csv");
+            for (Job job : jobs) {
+                service.addJob(job);
+            }
+        }
+    }
+
+    private void loadPassengers() {
+        File file = new File("Passenger.csv");
+        if (file.exists()) {
+            ArrayList<Passenger> passengers = passenger2csv.load("Passenger.csv");
+            for (Passenger passenger : passengers) {
+                service.addPassenger(passenger);
+            }
+        }
+    }
+
+    private void loadSender() {
+        File file = new File("Sender.csv");
+        if (file.exists()) {
+            ArrayList<Sender> senders = sender2CSV.load("Sender.csv");
+            for (Sender sender : senders) {
+                service.addSender(sender);
+            }
+        }
+    }
 
     public static void main(String args[]) {
         Main app = new Main();
+        app.loadJobs();
+        app.loadPassengers();
+        app.loadSender();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -311,6 +352,7 @@ public class Main {
             PassengerType passengerType = PassengerType.valueOf(s.nextLine());
             try {
                 id = service.addPassenger(new Passenger(name, firstName, email, cnp, passengerType));
+                passenger2csv.add("Passenger.csv", new Passenger(name, firstName, email, cnp, passengerType));
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }
@@ -437,6 +479,7 @@ public class Main {
         String phoneNumber = s.nextLine();
         try {
             id = service.addSender(new Sender(name, firstName, email, cnp, phoneNumber));
+            sender2CSV.add("Sender.csv", new Sender(name, firstName, email, cnp, phoneNumber));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
@@ -570,12 +613,15 @@ public class Main {
             JobLocationType jobLocationType = JobLocationType.valueOf(s.nextLine());
             try {
                 id = service.addJob(new Job(jobTitle, jobDescription, jobLocationType));
+                job2csv.add("Job.csv", new Job(jobTitle, jobDescription, jobLocationType));
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }
         } catch (RuntimeException invalidJobLocationType) {
             System.out.println("Invalid jobLocationType!");
         }
+//Verificare ca functioneaza declarari statice        Job2CSV job2csv=Job2CSV.getInstance();
+//        job2csv.testarestatic();
         return id;
     }
 

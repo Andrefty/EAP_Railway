@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Passenger;
 import java.util.ArrayList;
 
 public class PassengerRepository implements GenericRepository<Passenger> {
-    private ArrayList<Passenger> storage=new ArrayList<Passenger>();
+    static private ArrayList<Passenger> storage=new ArrayList<Passenger>();
     @Override
     public void add(Passenger entity) {
         storage.add(entity);

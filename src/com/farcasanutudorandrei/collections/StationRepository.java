@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Station;
 import java.util.ArrayList;
 
 public class StationRepository implements GenericRepository<Station> {
-    private ArrayList<Station> storage = new ArrayList<Station>();
+    static private ArrayList<Station> storage = new ArrayList<Station>();
     @Override
     public void add(Station entity) {
         storage.add(entity);

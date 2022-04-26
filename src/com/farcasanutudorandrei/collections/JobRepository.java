@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Job;
 import java.util.ArrayList;
 
 public class JobRepository implements GenericRepository<Job> {
-    private ArrayList<Job> storage= new ArrayList<Job>();
+    static private ArrayList<Job> storage= new ArrayList<Job>();
     @Override
     public void add(Job entity) {
         storage.add(entity);

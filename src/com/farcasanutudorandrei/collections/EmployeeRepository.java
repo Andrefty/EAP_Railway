@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class EmployeeRepository implements GenericRepository<Employee> {
 
-    private ArrayList<Employee> storage = new ArrayList<Employee>();
+    static private ArrayList<Employee> storage = new ArrayList<Employee>();
 
     @Override
     public void add(Employee entity) {

@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Department;
 import java.util.ArrayList;
 
 public class DepartmentRepository implements GenericRepository<Department> {
-    private ArrayList<Department> storage = new ArrayList<Department>();
+    static private ArrayList<Department> storage = new ArrayList<Department>();
 
     @Override
     public void add(Department entity) {

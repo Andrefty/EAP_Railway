@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Sender;
 import java.util.ArrayList;
 
 public class SenderRepository implements GenericRepository<Sender> {
-    private ArrayList<Sender> storage = new ArrayList<Sender>();
+    static private ArrayList<Sender> storage = new ArrayList<Sender>();
 
 
     @Override

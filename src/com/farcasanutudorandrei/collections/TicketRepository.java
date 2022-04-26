@@ -5,7 +5,7 @@ import com.farcasanutudorandrei.domain.Ticket;
 import java.util.ArrayList;
 
 public class TicketRepository implements GenericRepository<Ticket> {
-    private ArrayList<Ticket> storage = new ArrayList<Ticket>();
+    static private ArrayList<Ticket> storage = new ArrayList<Ticket>();
     @Override
     public void add(Ticket entity) {
         storage.add(entity);

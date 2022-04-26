@@ -30,6 +30,19 @@ Conține clasele ce stochează datele folosite în aplicație:
   - TrainRepository
 ## Services
   Clasa Service conține deocamdată operațiile de adăugare a diverselor entități și de afișare a lor.
+  
+Pentru Stage 2, am adăugat interfața GenericCSVIO, care este template pentru clasele de IO în CSV ale fiecărei clase.
+
+Tot în cadrul Stage 2, am adăugat clasa AuditService, care înregistrează modificările într-un fișier CSV.  
+- AuditService
+- Service
+- GenericCSVIO
+  - Job2CSV
+  - Passenger2CSV
+  - Sender2CSV
+  - Station2CSV
+  
 ## View
 Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate.
 De asemenea, exista o optiune ce afiseaza pasagerii care calatoresc cu un anumit tren.
+## 

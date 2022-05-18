@@ -16,56 +16,14 @@ public class Main {
 
     private Scanner s = new Scanner(System.in);
     private Service service = new Service();
-    private Job2CSV job2csv = Job2CSV.getInstance();
-    private Passenger2CSV passenger2csv = Passenger2CSV.getInstance();
-    private Sender2CSV sender2CSV = Sender2CSV.getInstance();
-    private Station2CSV station2CSV = Station2CSV.getInstance();
 
-    private void loadJobs() {
-        File file = new File("Job.csv");
-        if (file.exists()) {
-            ArrayList<Job> jobs = job2csv.load("Job.csv");
-            for (Job job : jobs) {
-                service.addJob(job);
-            }
-        }
-    }
-
-    private void loadPassengers() {
-        File file = new File("Passenger.csv");
-        if (file.exists()) {
-            ArrayList<Passenger> passengers = passenger2csv.load("Passenger.csv");
-            for (Passenger passenger : passengers) {
-                service.addPassenger(passenger);
-            }
-        }
-    }
-
-    private void loadSender() {
-        File file = new File("Sender.csv");
-        if (file.exists()) {
-            ArrayList<Sender> senders = sender2CSV.load("Sender.csv");
-            for (Sender sender : senders) {
-                service.addSender(sender);
-            }
-        }
-    }
-
-    private void loadStations() {
-        File file = new File("Station.csv");
-        if (file.exists()) {
-            ArrayList<Station> stations = station2CSV.load("Station.csv");
-            for (Station station : stations) {
-                service.addStation(station);
-            }
-        }
-    }
     public static void main(String args[]) {
         Main app = new Main();
-        app.loadJobs();
-        app.loadPassengers();
-        app.loadSender();
-        app.loadStations();
+// TODO: Replace with database
+//        app.loadJobs();
+//        app.loadPassengers();
+//        app.loadSender();
+//        app.loadStations();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -360,7 +318,8 @@ public class Main {
             PassengerType passengerType = PassengerType.valueOf(s.nextLine());
             try {
                 id = service.addPassenger(new Passenger(name, firstName, email, cnp, passengerType));
-                passenger2csv.add("Passenger.csv", new Passenger(name, firstName, email, cnp, passengerType));
+                // TODO: Replace with database
+                //  passenger2csv.add("Passenger.csv", new Passenger(name, firstName, email, cnp, passengerType));
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }
@@ -467,7 +426,8 @@ public class Main {
         String address = s.nextLine();
         try {
             id = service.addStation(new Station(name, address));
-            station2CSV.add("Station.csv", new Station(name, address));
+            // TODO: Replace with database
+            //  station2CSV.add("Station.csv", new Station(name, address));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
@@ -488,7 +448,8 @@ public class Main {
         String phoneNumber = s.nextLine();
         try {
             id = service.addSender(new Sender(name, firstName, email, cnp, phoneNumber));
-            sender2CSV.add("Sender.csv", new Sender(name, firstName, email, cnp, phoneNumber));
+            // TODO: Replace with database
+            //  sender2CSV.add("Sender.csv", new Sender(name, firstName, email, cnp, phoneNumber));
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
@@ -622,7 +583,8 @@ public class Main {
             JobLocationType jobLocationType = JobLocationType.valueOf(s.nextLine());
             try {
                 id = service.addJob(new Job(jobTitle, jobDescription, jobLocationType));
-                job2csv.add("Job.csv", new Job(jobTitle, jobDescription, jobLocationType));
+                // TODO: Replace with database
+                //  job2csv.add("Job.csv", new Job(jobTitle, jobDescription, jobLocationType));
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }

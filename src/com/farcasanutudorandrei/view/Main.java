@@ -5,6 +5,8 @@ import com.farcasanutudorandrei.service.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,17 @@ public class Main {
 
     private ConnectionManager conMan= ConnectionManager.getInstance();
 
+    private void loadData(){
+        try {
+            ResultSet rs = conMan.ppSt("select * from functii").executeQuery();
+            while(rs.next()){
+                System.out.println(rs.getString("id_functie"));
+                System.out.println(rs.getString("nume_functie")+"\n");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main(String args[]) {
         Main app = new Main();
         app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect","ideadata","password");
@@ -27,6 +40,7 @@ public class Main {
 //        app.loadPassengers();
 //        app.loadSender();
 //        app.loadStations();
+        app.loadData();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -73,84 +87,67 @@ public class Main {
 
     private void execute(int option) {
         switch (option) {
-            case 1:
+            case 1 ->
                 // add entity
-                addDepartment();
-                break;
-            case 2:
+                    addDepartment();
+            case 2 ->
                 // list entities
-                service.listDepartments();
-                break;
-            case 3:
+                    service.listDepartments();
+            case 3 ->
                 // add entity
-                addEmployee();
-                break;
-            case 4:
+                    addEmployee();
+            case 4 ->
                 // list entities
-                service.listEmployees();
-                break;
-            case 5:
+                    service.listEmployees();
+            case 5 ->
                 // add entity
-                addJob();
-                break;
-            case 6:
+                    addJob();
+            case 6 ->
                 // list entities
-                service.listJobs();
-                break;
-            case 7:
+                    service.listJobs();
+            case 7 ->
                 // add entity
-                addParcel();
-                break;
-            case 8:
+                    addParcel();
+            case 8 ->
                 // list entities
-                service.listParcels();
-                break;
-            case 9:
+                    service.listParcels();
+            case 9 ->
                 // add entity
-                addPassenger();
-                break;
-            case 10:
+                    addPassenger();
+            case 10 ->
                 // list entities
-                service.listPassengers();
-                break;
-            case 11:
+                    service.listPassengers();
+            case 11 ->
                 // add entity
-                addSender();
-                break;
-            case 12:
+                    addSender();
+            case 12 ->
                 // list entities
-                service.listSenders();
-                break;
-            case 13:
+                    service.listSenders();
+            case 13 ->
                 // add entity
-                addStation();
-                break;
-            case 14:
+                    addStation();
+            case 14 ->
                 // list entities
-                service.listStations();
-                break;
-            case 15:
+                    service.listStations();
+            case 15 ->
                 // add entity
-                addTicket();
-                break;
-            case 16:
+                    addTicket();
+            case 16 ->
                 // list entities
-                service.listTickets();
-                break;
-            case 17:
+                    service.listTickets();
+            case 17 ->
                 // add entity
-                addTrain();
-                break;
-            case 18:
+                    addTrain();
+            case 18 ->
                 // list entities
-                service.listTrains();
-                break;
-            case 19:
+                    service.listTrains();
+            case 19 ->
                 // show passengers that travel on a given train
-                showPassengersOnTrain();
-                break;
-            case 99:
+                    showPassengersOnTrain();
+            case 99 -> {
+                conMan.close();
                 System.exit(0);
+            }
         }
     }
 

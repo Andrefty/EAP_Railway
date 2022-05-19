@@ -1,7 +1,5 @@
 package com.farcasanutudorandrei.service;
 
-import com.farcasanutudorandrei.domain.Job;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;

@@ -17,8 +17,11 @@ public class Main {
     private Scanner s = new Scanner(System.in);
     private Service service = new Service();
 
+    private ConnectionManager conMan= ConnectionManager.getInstance();
+
     public static void main(String args[]) {
         Main app = new Main();
+        app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect","ideadata","password");
 // TODO: Replace with database
 //        app.loadJobs();
 //        app.loadPassengers();

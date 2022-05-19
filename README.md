@@ -45,4 +45,4 @@ Tot în cadrul Stage 2, am adăugat clasa AuditService, care înregistrează mod
 ## View
 Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate.
 De asemenea, exista o optiune ce afiseaza pasagerii care calatoresc cu un anumit tren.
-## 
+## Stage 3

@@ -1,9 +1,6 @@
 package com.farcasanutudorandrei.service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ConnectionManager {
 
@@ -51,7 +48,8 @@ public class ConnectionManager {
             throw new RuntimeException(e);
         }
         try {
-            return conn.prepareStatement(stmt);
+            return conn.prepareStatement(stmt, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

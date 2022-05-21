@@ -3,8 +3,6 @@ package com.farcasanutudorandrei.view;
 import com.farcasanutudorandrei.domain.*;
 import com.farcasanutudorandrei.service.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -17,20 +15,12 @@ import java.util.Scanner;
 public class Main {
 
     private Scanner s = new Scanner(System.in);
-    private Service service = new Service();
-
+    private Service service = Service.getInstance();
+    private Sender2DB sender2DB = Sender2DB.getInstance();
     private ConnectionManager conMan= ConnectionManager.getInstance();
 
-    private void loadData(){
-        try {
-            ResultSet rs = conMan.ppSt("select * from functii").executeQuery();
-            while(rs.next()){
-                System.out.println(rs.getString("id_functie"));
-                System.out.println(rs.getString("nume_functie")+"\n");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    private void loadSender(){
+
     }
     public static void main(String args[]) {
         Main app = new Main();
@@ -38,9 +28,8 @@ public class Main {
 // TODO: Replace with database
 //        app.loadJobs();
 //        app.loadPassengers();
-//        app.loadSender();
+        app.sender2DB.load();
 //        app.loadStations();
-        app.loadData();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -352,9 +341,11 @@ public class Main {
             } else return id;
         } else {
             service.listSenders();
-            System.out.print("senderId=");
+            System.out.print("id_expeditor=");
             int senderId = readInt();
-            sender = service.getSender(senderId);
+            sender = service.getSenderbyDBid(senderId);
+//            sender = service.getSenderfromDB(senderId);
+//            TODO: Replace with database
         }
         System.out.println("Pick receiver:");
         if (service.getSenderSize() == 0) {
@@ -436,6 +427,8 @@ public class Main {
 
     private int addSender() {
         int id = -1;
+        System.out.print("id_expeditor=");
+        int id_expeditor = readInt();
         System.out.print("name=");
         String name = s.nextLine();
         System.out.print("firstName=");
@@ -444,12 +437,12 @@ public class Main {
         String email = s.nextLine();
         System.out.print("CNP=");
         String cnp = s.nextLine();
-        System.out.println("phoneNumber=");
+        System.out.print("phoneNumber=");
         String phoneNumber = s.nextLine();
         try {
-            id = service.addSender(new Sender(name, firstName, email, cnp, phoneNumber));
-            // TODO: Replace with database
-            //  sender2CSV.add("Sender.csv", new Sender(name, firstName, email, cnp, phoneNumber));
+            Sender sender = new Sender(id_expeditor, name, firstName, email, cnp, phoneNumber);
+            sender2DB.add(sender);
+            id = service.addSender(sender);
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }

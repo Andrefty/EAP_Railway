@@ -3,9 +3,20 @@ package com.farcasanutudorandrei.service;
 import com.farcasanutudorandrei.collections.*;
 import com.farcasanutudorandrei.domain.*;
 
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class Service {
+    private static final Service instance = new Service();
+    private ConnectionManager conMan= ConnectionManager.getInstance();
+
+    private Service() {
+    }
+    public static Service getInstance() {
+        return instance;
+    }
     private DepartmentRepository departmentRepository = new DepartmentRepository();
     private EmployeeRepository employeeRepository = new EmployeeRepository();
     private JobRepository jobRepository = new JobRepository();
@@ -76,6 +87,21 @@ public class Service {
         return senderRepository.get(id);
     }
 
+    public Sender getSenderbyDBid(int id) {
+        return senderRepository.getbyDBid(id);
+    }
+
+    public Sender getSenderfromDB(int id) {
+        try {
+            PreparedStatement stmt = conMan.ppSt("select * from expeditori where id_expeditor=?");
+            stmt.setInt(1,id);
+            ResultSet rs=stmt.executeQuery();
+            return new Sender(rs.getInt("id_expeditor"), rs.getString("nume_expeditor"), rs.getString("prenume_expeditor"), rs.getString("email"), rs.getString("CNP"), rs.getString("telefon_expeditor"));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public int getSenderIndex(Sender name) {
         return senderRepository.getIndex(name);
     }
@@ -132,63 +158,63 @@ public class Service {
     public void listDepartments() {
 //        System.out.println(departmentRepository.getAll());
         for (int i = 0; i < departmentRepository.getSize(); i++) {
-            System.out.println(i + " " + departmentRepository.get(i));
+            System.out.println(departmentRepository.get(i));
         }
     }
 
     public void listEmployees() {
 //        System.out.println(employeeRepository.getAll());
         for (int i = 0; i < employeeRepository.getSize(); i++) {
-            System.out.println(i + " " + employeeRepository.get(i));
+            System.out.println(employeeRepository.get(i));
         }
     }
 
     public void listJobs() {
 //        System.out.println(jobRepository.getAll());
         for (int i = 0; i < jobRepository.getSize(); i++) {
-            System.out.println(i + " " + jobRepository.get(i));
+            System.out.println(jobRepository.get(i));
         }
     }
 
     public void listParcels() {
 //        System.out.println(parcelRepository.getAll());
         for (int i = 0; i < parcelRepository.getSize(); i++) {
-            System.out.println(i + " " + parcelRepository.get(i));
+            System.out.println(parcelRepository.get(i));
         }
     }
 
     public void listPassengers() {
 //        System.out.println(passengerRepository.getAll());
         for (int i = 0; i < passengerRepository.getSize(); i++) {
-            System.out.println(i + " " + passengerRepository.get(i));
+            System.out.println(passengerRepository.get(i));
         }
     }
 
     public void listSenders() {
 //        System.out.println(senderRepository.getAll());
         for (int i = 0; i < senderRepository.getSize(); i++) {
-            System.out.println(i + " " + senderRepository.get(i));
+            System.out.println(senderRepository.get(i));
         }
     }
 
     public void listStations() {
 //        System.out.println(stationRepository.getAll());
         for (int i = 0; i < stationRepository.getSize(); i++) {
-            System.out.println(i + " " + stationRepository.get(i));
+            System.out.println(stationRepository.get(i));
         }
     }
 
     public void listTickets() {
 //        System.out.println(ticketRepository.getAll());
         for (int i = 0; i < ticketRepository.getSize(); i++) {
-            System.out.println(i + " " + ticketRepository.get(i));
+            System.out.println(ticketRepository.get(i));
         }
     }
 
     public void listTrains() {
 //        System.out.println(trainRepository.getAll());
         for (int i = 0; i < trainRepository.getSize(); i++) {
-            System.out.println(i + " " + trainRepository.get(i));
+            System.out.println(trainRepository.get(i));
         }
     }
 }

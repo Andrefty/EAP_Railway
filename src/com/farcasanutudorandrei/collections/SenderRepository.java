@@ -18,6 +18,15 @@ public class SenderRepository implements GenericRepository<Sender> {
         return storage.get(id);
     }
 
+    public Sender getbyDBid(int id) {
+        for (Sender sender : storage) {
+            if (sender.getId_expeditor() == id) {
+                return sender;
+            }
+        }
+        return null;
+    }
+
     @Override
     public ArrayList<Sender> getAll() {
         return storage;

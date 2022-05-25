@@ -16,6 +16,7 @@ public class Main {
     private Service service = Service.getInstance();
     private Sender2DB sender2DB = Sender2DB.getInstance();
     private Job2DB job2DB = Job2DB.getInstance();
+    private Station2DB station2DB = Station2DB.getInstance();
     private ConnectionManager conMan= ConnectionManager.getInstance();
 
     public static void main(String args[]) {
@@ -25,7 +26,7 @@ public class Main {
         app.job2DB.load();
 //        app.loadPassengers();
         app.sender2DB.load();
-//        app.loadStations();
+        app.station2DB.load();
         while (true) {
             app.showMenu();
             int option = app.readOption();
@@ -407,14 +408,16 @@ public class Main {
 
     private int addStation() {
         int id = -1;
+        System.out.print("id_statie=");
+        int id_statie = readInt();
         System.out.print("name=");
         String name = s.nextLine();
         System.out.print("address=");
         String address = s.nextLine();
         try {
-            id = service.addStation(new Station(name, address));
-            // TODO: Replace with database
-            //  station2CSV.add("Station.csv", new Station(name, address));
+            Station station =new Station(id_statie,name, address);
+            station2DB.add(station);
+            id = service.addStation(station);
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }

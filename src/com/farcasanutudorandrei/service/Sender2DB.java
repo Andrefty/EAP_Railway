@@ -34,6 +34,14 @@ public class Sender2DB implements GenericDBIO<Sender>{
             stmt.execute();
             auditService.add("Added Sender to database");
         } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error adding Sender to database! Message: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -47,6 +55,14 @@ public class Sender2DB implements GenericDBIO<Sender>{
             }
             auditService.add("Loaded Senders from database");
         } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error loading Senders from database! Message: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

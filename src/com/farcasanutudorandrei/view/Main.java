@@ -3,8 +3,6 @@ package com.farcasanutudorandrei.view;
 import com.farcasanutudorandrei.domain.*;
 import com.farcasanutudorandrei.service.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,16 +15,14 @@ public class Main {
     private Scanner s = new Scanner(System.in);
     private Service service = Service.getInstance();
     private Sender2DB sender2DB = Sender2DB.getInstance();
+    private Job2DB job2DB = Job2DB.getInstance();
     private ConnectionManager conMan= ConnectionManager.getInstance();
 
-    private void loadSender(){
-
-    }
     public static void main(String args[]) {
         Main app = new Main();
         app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect","ideadata","password");
 // TODO: Replace with database
-//        app.loadJobs();
+        app.job2DB.load();
 //        app.loadPassengers();
         app.sender2DB.load();
 //        app.loadStations();
@@ -567,6 +563,8 @@ public class Main {
 
     private int addJob() {
         int id = -1;
+        System.out.print("id_functie=");
+        int id_functie = readInt();
         System.out.print("jobTitle=");
         String jobTitle = s.nextLine();
         System.out.print("jobDescription=");
@@ -575,9 +573,9 @@ public class Main {
         try {
             JobLocationType jobLocationType = JobLocationType.valueOf(s.nextLine());
             try {
-                id = service.addJob(new Job(jobTitle, jobDescription, jobLocationType));
-                // TODO: Replace with database
-                //  job2csv.add("Job.csv", new Job(jobTitle, jobDescription, jobLocationType));
+                Job job =new Job(id_functie, jobTitle, jobDescription, jobLocationType);
+                job2DB.add(job);
+                id = service.addJob(job);
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }

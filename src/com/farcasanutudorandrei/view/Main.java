@@ -17,14 +17,14 @@ public class Main {
     private Sender2DB sender2DB = Sender2DB.getInstance();
     private Job2DB job2DB = Job2DB.getInstance();
     private Station2DB station2DB = Station2DB.getInstance();
+    private Passenger2DB passenger2DB = Passenger2DB.getInstance();
     private ConnectionManager conMan= ConnectionManager.getInstance();
 
     public static void main(String args[]) {
         Main app = new Main();
         app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect","ideadata","password");
-// TODO: Replace with database
         app.job2DB.load();
-//        app.loadPassengers();
+        app.passenger2DB.load();
         app.sender2DB.load();
         app.station2DB.load();
         while (true) {
@@ -291,6 +291,8 @@ public class Main {
 
     private int addPassenger() {
         int id = -1;
+        System.out.print("id_pasager=");
+        int id_pasager = readInt();
         System.out.print("name=");
         String name = s.nextLine();
         System.out.print("firstName=");
@@ -303,9 +305,9 @@ public class Main {
         try {
             PassengerType passengerType = PassengerType.valueOf(s.nextLine());
             try {
-                id = service.addPassenger(new Passenger(name, firstName, email, cnp, passengerType));
-                // TODO: Replace with database
-                //  passenger2csv.add("Passenger.csv", new Passenger(name, firstName, email, cnp, passengerType));
+                Passenger passenger = new Passenger(id_pasager,name, firstName, email, cnp, passengerType);
+                passenger2DB.add(passenger);
+                id = service.addPassenger(passenger);
             } catch (RuntimeException addError) {
                 System.out.println("Add error!");
             }

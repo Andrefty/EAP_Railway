@@ -86,7 +86,7 @@ public class Sender2DB implements GenericDBIO<Sender>{
             System.out.println("Error Code: " +
                     e.getErrorCode());
             System.out.println("Message: " + e.getMessage());
-            auditService.add("Error updating Sender in database! Message: " + e.getMessage());
+            auditService.add("Error finding Sender in database! Message: " + e.getMessage());
             throw new RuntimeException(e);
         }
         try {
@@ -94,6 +94,7 @@ public class Sender2DB implements GenericDBIO<Sender>{
             rs.updateString(column,value);
             rs.updateRow();
             sender=new Sender(rs.getInt("id_expeditor"), rs.getString("nume_expeditor"), rs.getString("prenume_expeditor"), rs.getString("email"), rs.getString("CNP"), rs.getString("telefon_expeditor"));
+            auditService.add("Updated column "+column +" of Sender "+ id+ " in database");
         } catch (SQLException e) {
             System.out.println("SQLState: " +
                     e.getSQLState());

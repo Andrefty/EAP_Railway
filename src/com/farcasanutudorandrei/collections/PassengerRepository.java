@@ -1,5 +1,6 @@
 package com.farcasanutudorandrei.collections;
 
+import com.farcasanutudorandrei.domain.Job;
 import com.farcasanutudorandrei.domain.Passenger;
 
 import java.util.ArrayList;
@@ -39,5 +40,9 @@ storage.remove(entity);
     @Override
     public int getIndex(Passenger entity) {
         return storage.indexOf(entity);
+    }
+
+    public Passenger findById(int id) {
+        return storage.stream().filter(entity -> entity.getId_pasager() == id).findFirst().get();
     }
 }

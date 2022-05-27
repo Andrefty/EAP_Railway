@@ -159,6 +159,18 @@ public class Service {
         return passengerRepository.getIndex(passenger);
     }
 
+    public void updatePassenger(Passenger entityOld, Passenger entityNew) {
+        passengerRepository.update(entityOld, entityNew);
+    }
+
+    public void deletePassenger(Passenger entity) {
+        passengerRepository.delete(entity);
+    }
+
+    public Passenger getPassengerbyDBid(int id) {
+        return passengerRepository.findById(id);
+    }
+
     public int addSender(Sender sender) {
         senderRepository.add(sender);
         return senderRepository.getIndex(sender);

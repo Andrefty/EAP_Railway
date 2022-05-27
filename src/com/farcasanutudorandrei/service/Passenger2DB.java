@@ -71,12 +71,67 @@ public class Passenger2DB implements GenericDBIO<Passenger>{
 
     @Override
     public Passenger update(int id,String column,String value) {
+        PreparedStatement stmt=conMan.ppSt("select * from pasageri where id_pasager = ?");
+        ResultSet rs=null;
+        Passenger passenger=null;
+        try {
+            stmt.setInt(1,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            rs= stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
 
-        return null;
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error finding Passenger in database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        try {
+            rs.first();
+            rs.updateString(column,value);
+            rs.updateRow();
+            passenger=new Passenger(rs.getInt("id_pasager"), rs.getString("nume_pasager"), rs.getString("prenume_pasager"),  rs.getString("email"), rs.getString("CNP"), PassengerType.valueOf(rs.getString("tip_pasager")));
+            auditService.add("Updated column "+column +" of Passenger "+ id+ " in database");
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error updating column "+column +" of Passenger "+ id+ " in database! "+" Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return passenger;
     }
 
     @Override
     public void delete(int id) {
+        PreparedStatement stmt=conMan.ppSt("delete from pasageri where id_pasager = ?");
+        try {
+            stmt.setInt(1,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            stmt.execute();
+            auditService.add("Deleted Passenger "+ id+ " from database");
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
 
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error deleting Passenger "+ id+ " from database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

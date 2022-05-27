@@ -349,9 +349,49 @@ public class Main {
         return id;
     }
 
-    private void editPassenger(){}
+    private void editPassenger() {
+        service.listPassengers();
+        System.out.println("id_pasager=");
+        int id_pasager = readInt();
+        String column=null;
+        String value=null;
+        while (true){
+            System.out.println("Column to update (use column name from database):");
+            column = s.nextLine();
+            if (!column.equals("id_pasager")) {
+                break;
+            } else System.out.println("Invalid column name!");
+        }
+        if (column.equals("tip_pasager")) {
+            while (true) {
+                System.out.println("New field value:");
+                value = s.nextLine();
+                if (!((value.equals("ADULT")) || (value.equals("COPIL")) || (value.equals("INFANT"))|| (value.equals("STUDENT"))||(value.equals("PENSIONAR"))))
+                    System.out.println("Invalid value!");
+                else break;
+            }
+        } else {
+            System.out.println("New field value:");
+            value = s.nextLine();
+        }
+        try {
+            service.updatePassenger(service.getPassengerbyDBid(id_pasager),passenger2DB.update(id_pasager,column,value));
+        } catch (RuntimeException editError) {
+            System.out.println("Update error!");
+        }
+    }
 
-    private void deletePassenger(){}
+    private void deletePassenger() {
+        service.listPassengers();
+        System.out.println("id_pasager=");
+        int id_pasager = readInt();
+        try {
+            passenger2DB.delete(id_pasager);
+            service.deletePassenger(service.getPassengerbyDBid(id_pasager));
+        } catch (RuntimeException deleteError) {
+            System.out.println("Delete error!");
+        }
+    }
 
     private int addParcel() {
         int id = -1;
@@ -549,6 +589,7 @@ public class Main {
             System.out.println("Delete error!");
         }
     }
+
     private int addEmployee() {
         int id = -1;
         System.out.print("name=");

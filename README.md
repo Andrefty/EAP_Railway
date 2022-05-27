@@ -46,3 +46,4 @@ Tot în cadrul Stage 2, am adăugat clasa AuditService, care înregistrează mod
 Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăugare/listare pentru fiecare entitate.
 De asemenea, exista o optiune ce afiseaza pasagerii care calatoresc cu un anumit tren.
 ## Stage 3
+Am înlocuit serviciile ce foloseau CSV la stage 2 cu altele ce folosesc o baza de date MySQL, ce implementeaza CRUD.

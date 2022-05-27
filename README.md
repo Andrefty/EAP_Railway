@@ -47,3 +47,7 @@ Conține clasa ce interfațează cu utilizatorul, oferind operațiile de adăuga
 De asemenea, exista o optiune ce afiseaza pasagerii care calatoresc cu un anumit tren.
 ## Stage 3
 Am înlocuit serviciile ce foloseau CSV la stage 2 cu altele ce folosesc o baza de date MySQL, ce implementeaza CRUD.
+| :exclamation:  This is very important   |
+|-----------------------------------------|
+Când interacțiunea se face doar cu clasele ce au persistență în baza de date, pentru alegerea entităților se folosesc ID-urile din baza de date.
+Altfel, când interacțiunile se fac între clasele care nu au persistență, sau între cele 2 tipuri de clase, se folosesc numerotările de pe marginea stângă ca ID-uri.

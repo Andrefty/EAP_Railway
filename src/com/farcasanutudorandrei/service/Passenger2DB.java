@@ -68,4 +68,15 @@ public class Passenger2DB implements GenericDBIO<Passenger>{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Passenger update(int id,String column,String value) {
+
+        return null;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

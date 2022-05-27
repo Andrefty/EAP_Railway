@@ -67,4 +67,14 @@ public class Job2DB implements GenericDBIO<Job> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Job update(int id,String column,String value) {
+        return null;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

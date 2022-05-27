@@ -66,4 +66,15 @@ public class Sender2DB implements GenericDBIO<Sender>{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Sender update(int id,String column,String value) {
+
+        return null;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

@@ -64,4 +64,71 @@ public class Station2DB implements GenericDBIO<Station>{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Station update(int id,String column,String value) {
+        PreparedStatement stmt=conMan.ppSt("select * from statii where id_statie = ?");
+        ResultSet rs=null;
+        Station station=null;
+        try {
+            stmt.setInt(1,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error finding Station in database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        try {
+            rs.first();
+            rs.updateString(column,value);
+            rs.updateRow();
+            station=new Station(rs.getInt("id_statie"), rs.getString("nume_statie"), rs.getString("adresa"));
+            auditService.add("Updated column "+column +" of Station "+ id+ " in database");
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error updating column "+column +" of Station "+ id+ " in database! "+" Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return station;
+    }
+
+    @Override
+    public void delete(int id) {
+        PreparedStatement stmt = conMan.ppSt("delete from statii where id_statie = ?");
+        try {
+            stmt.setInt(1, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            stmt.execute();
+            auditService.add("Deleted Station "+id +" from database");
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error deleting Station "+id +" from database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }

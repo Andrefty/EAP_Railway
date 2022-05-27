@@ -18,11 +18,11 @@ public class Main {
     private Job2DB job2DB = Job2DB.getInstance();
     private Station2DB station2DB = Station2DB.getInstance();
     private Passenger2DB passenger2DB = Passenger2DB.getInstance();
-    private ConnectionManager conMan= ConnectionManager.getInstance();
+    private ConnectionManager conMan = ConnectionManager.getInstance();
 
     public static void main(String args[]) {
         Main app = new Main();
-        app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect","ideadata","password");
+        app.conMan.setConnection("jdbc:mysql://192.168.43.215:3306/proiect", "ideadata", "password");
         app.job2DB.load();
         app.passenger2DB.load();
         app.sender2DB.load();
@@ -49,12 +49,14 @@ public class Main {
         System.out.println("11. add sender");
         System.out.println("12. list senders");
         System.out.println("13. add station");
-        System.out.println("14. list stations");
-        System.out.println("15. add ticket");
-        System.out.println("16. list tickets");
-        System.out.println("17. add train");
-        System.out.println("18. list trains");
-        System.out.println("19. show passengers that travel on a given train");
+        System.out.println("14. edit station");
+        System.out.println("15. delete station");
+        System.out.println("16. list stations");
+        System.out.println("17. add ticket");
+        System.out.println("18. list tickets");
+        System.out.println("19. add train");
+        System.out.println("20. list trains");
+        System.out.println("21. show passengers that travel on a given train");
         System.out.println("99. exit");
     }
 
@@ -113,21 +115,27 @@ public class Main {
                 // add entity
                     addStation();
             case 14 ->
-                // list entities
-                    service.listStations();
+                // edit entity
+                    editStation();
             case 15 ->
-                // add entity
-                    addTicket();
+                // delete entity
+                    deleteStation();
             case 16 ->
                 // list entities
-                    service.listTickets();
+                    service.listStations();
             case 17 ->
                 // add entity
-                    addTrain();
+                    addTicket();
             case 18 ->
                 // list entities
-                    service.listTrains();
+                    service.listTickets();
             case 19 ->
+                // add entity
+                    addTrain();
+            case 20 ->
+                // list entities
+                    service.listTrains();
+            case 21 ->
                 // show passengers that travel on a given train
                     showPassengersOnTrain();
             case 99 -> {
@@ -305,7 +313,7 @@ public class Main {
         try {
             PassengerType passengerType = PassengerType.valueOf(s.nextLine());
             try {
-                Passenger passenger = new Passenger(id_pasager,name, firstName, email, cnp, passengerType);
+                Passenger passenger = new Passenger(id_pasager, name, firstName, email, cnp, passengerType);
                 passenger2DB.add(passenger);
                 id = service.addPassenger(passenger);
             } catch (RuntimeException addError) {
@@ -340,11 +348,9 @@ public class Main {
             } else return id;
         } else {
             service.listSenders();
-            System.out.print("id_expeditor=");
+            System.out.print("senderId=");
             int senderId = readInt();
-            sender = service.getSenderbyDBid(senderId);
-//            sender = service.getSenderfromDB(senderId);
-//            TODO: Replace with database
+            sender = service.getSender(senderId);
         }
         System.out.println("Pick receiver:");
         if (service.getSenderSize() == 0) {
@@ -417,13 +423,47 @@ public class Main {
         System.out.print("address=");
         String address = s.nextLine();
         try {
-            Station station =new Station(id_statie,name, address);
+            Station station = new Station(id_statie, name, address);
             station2DB.add(station);
             id = service.addStation(station);
         } catch (RuntimeException addError) {
             System.out.println("Add error!");
         }
         return id;
+    }
+
+    private void editStation() {
+        service.listStations();
+        System.out.println("id_statie=");
+        int id_statie = readInt();
+        String column=null;
+        while (true) {
+            System.out.println("Column to update (use column name from database):");
+            column = s.nextLine();
+            if(!column.equals("id_statie")){
+                break;
+            }
+            else System.out.println("Invalid column name!");
+        }
+        System.out.println("New field value:");
+        String value = s.nextLine();
+        try {
+            service.updateStation(service.getStationbyDBid(id_statie), station2DB.update(id_statie, column, value));
+        } catch (RuntimeException e) {
+            System.out.println("Update error!");
+        }
+    }
+
+    private void deleteStation(){
+        service.listStations();
+        System.out.println("id_statie=");
+        int id_statie = readInt();
+        try {
+            station2DB.delete(id_statie);
+            service.deleteStation(service.getStationbyDBid(id_statie));
+        } catch (RuntimeException e) {
+            System.out.println("Delete error!");
+        }
     }
 
     private int addSender() {
@@ -578,7 +618,7 @@ public class Main {
         try {
             JobLocationType jobLocationType = JobLocationType.valueOf(s.nextLine());
             try {
-                Job job =new Job(id_functie, jobTitle, jobDescription, jobLocationType);
+                Job job = new Job(id_functie, jobTitle, jobDescription, jobLocationType);
                 job2DB.add(job);
                 id = service.addJob(job);
             } catch (RuntimeException addError) {

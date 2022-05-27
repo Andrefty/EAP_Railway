@@ -87,21 +87,22 @@ public class Service {
         return senderRepository.get(id);
     }
 
-    public Sender getSenderbyDBid(int id) {
-        return senderRepository.getbyDBid(id);
+    public void updateStation(Station entityOld, Station entityNew) {
+        stationRepository.update(entityOld, entityNew);
     }
 
-    public Sender getSenderfromDB(int id) {
-        try {
-            PreparedStatement stmt = conMan.ppSt("select * from expeditori where id_expeditor=?");
-            stmt.setInt(1,id);
-            ResultSet rs=stmt.executeQuery();
-            return new Sender(rs.getInt("id_expeditor"), rs.getString("nume_expeditor"), rs.getString("prenume_expeditor"), rs.getString("email"), rs.getString("CNP"), rs.getString("telefon_expeditor"));
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void deleteStation(Station entity) {
+        stationRepository.delete(entity);
     }
+
+    public Station getStationbyDBid(int id) {
+        return stationRepository.findById(id);
+    }
+//    public Sender getSenderbyDBid(int id) {
+//        TODO: repair this
+//        return senderRepository.getbyDBid(id);
+//    }
+
     public int getSenderIndex(Sender name) {
         return senderRepository.getIndex(name);
     }

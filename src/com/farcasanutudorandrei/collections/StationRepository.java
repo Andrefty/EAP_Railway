@@ -40,4 +40,8 @@ public class StationRepository implements GenericRepository<Station> {
     public int getIndex(Station entity) {
         return storage.indexOf(entity);
     }
+
+    public Station findById(int id) {
+        return storage.stream().filter(entity -> entity.getId_station() == id).findFirst().get();
+    }
 }

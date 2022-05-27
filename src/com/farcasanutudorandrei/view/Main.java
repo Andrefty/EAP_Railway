@@ -47,18 +47,22 @@ public class Main {
         System.out.println("9. add parcel");
         System.out.println("10. list parcels");
         System.out.println("11. add passenger");
-        System.out.println("12. list passengers");
-        System.out.println("13. add sender");
-        System.out.println("14. list senders");
-        System.out.println("15. add station");
-        System.out.println("16. edit station");
-        System.out.println("17. delete station");
-        System.out.println("18. list stations");
-        System.out.println("19. add ticket");
-        System.out.println("20. list tickets");
-        System.out.println("21. add train");
-        System.out.println("22. list trains");
-        System.out.println("23. show passengers that travel on a given train");
+        System.out.println("12. edit passenger");
+        System.out.println("13. delete passenger");
+        System.out.println("14. list passengers");
+        System.out.println("15. add sender");
+        System.out.println("16. edit sender");
+        System.out.println("17. delete sender");
+        System.out.println("18. list senders");
+        System.out.println("19. add station");
+        System.out.println("20. edit station");
+        System.out.println("21. delete station");
+        System.out.println("22. list stations");
+        System.out.println("23. add ticket");
+        System.out.println("24. list tickets");
+        System.out.println("25. add train");
+        System.out.println("26. list trains");
+        System.out.println("27. show passengers that travel on a given train");
         System.out.println("99. exit");
     }
 
@@ -111,39 +115,51 @@ public class Main {
                 // add entity
                     addPassenger();
             case 12 ->
-                // list entities
-                    service.listPassengers();
+                // edit entity
+                    editPassenger();
             case 13 ->
-                // add entity
-                    addSender();
+                // delete entity
+                    deletePassenger();
             case 14 ->
                 // list entities
-                    service.listSenders();
+                    service.listPassengers();
             case 15 ->
                 // add entity
-                    addStation();
+                    addSender();
             case 16 ->
-                // edit entity
-                    editStation();
+                // add entity
+                    editSender();
             case 17 ->
-                // delete entity
-                    deleteStation();
+                // add entity
+                    deleteSender();
             case 18 ->
                 // list entities
-                    service.listStations();
+                    service.listSenders();
             case 19 ->
                 // add entity
-                    addTicket();
+                    addStation();
             case 20 ->
-                // list entities
-                    service.listTickets();
+                // edit entity
+                    editStation();
             case 21 ->
-                // add entity
-                    addTrain();
+                // delete entity
+                    deleteStation();
             case 22 ->
                 // list entities
-                    service.listTrains();
+                    service.listStations();
             case 23 ->
+                // add entity
+                    addTicket();
+            case 24 ->
+                // list entities
+                    service.listTickets();
+            case 25 ->
+                // add entity
+                    addTrain();
+            case 26 ->
+                // list entities
+                    service.listTrains();
+            case 27 ->
                 // show passengers that travel on a given train
                     showPassengersOnTrain();
             case 99 -> {
@@ -333,6 +349,10 @@ public class Main {
         return id;
     }
 
+    private void editPassenger(){}
+
+    private void deletePassenger(){}
+
     private int addParcel() {
         int id = -1;
         System.out.print("weight=");
@@ -497,6 +517,38 @@ public class Main {
         return id;
     }
 
+    private void editSender() {
+        service.listSenders();
+        System.out.println("id_expeditor=");
+        int id_expeditor = readInt();
+        String column = null;
+        while (true) {
+            System.out.println("Column to update (use column name from database):");
+            column = s.nextLine();
+            if (!column.equals("id_expeditor")) {
+                break;
+            } else System.out.println("Invalid column name!");
+        }
+        System.out.println("New field value:");
+        String value = s.nextLine();
+        try {
+            service.updateSender(service.getSenderbyDBid(id_expeditor), sender2DB.update(id_expeditor, column, value));
+        } catch (RuntimeException e) {
+            System.out.println("Update error!");
+        }
+    }
+
+    private void deleteSender() {
+        service.listSenders();
+        System.out.println("id_expeditor=");
+        int id_expeditor = readInt();
+        try {
+            sender2DB.delete(id_expeditor);
+            service.deleteSender(service.getSenderbyDBid(id_expeditor));
+        } catch (RuntimeException e) {
+            System.out.println("Delete error!");
+        }
+    }
     private int addEmployee() {
         int id = -1;
         System.out.print("name=");

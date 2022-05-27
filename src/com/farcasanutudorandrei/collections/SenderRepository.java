@@ -1,5 +1,6 @@
 package com.farcasanutudorandrei.collections;
 
+import com.farcasanutudorandrei.domain.Job;
 import com.farcasanutudorandrei.domain.Sender;
 
 import java.util.ArrayList;
@@ -17,15 +18,6 @@ public class SenderRepository implements GenericRepository<Sender> {
     public Sender get(int id) {
         return storage.get(id);
     }
-//TODO: replace this
-//    public Sender getbyDBid(int id) {
-//        for (Sender sender : storage) {
-//            if (sender.getId_expeditor() == id) {
-//                return sender;
-//            }
-//        }
-//        return null;
-//    }
 
     @Override
     public ArrayList<Sender> getAll() {
@@ -50,5 +42,9 @@ public class SenderRepository implements GenericRepository<Sender> {
     @Override
     public int getIndex(Sender entity) {
         return storage.indexOf(entity);
+    }
+
+    public Sender findById(int id) {
+        return storage.stream().filter(entity -> entity.getId_expeditor() == id).findFirst().get();
     }
 }

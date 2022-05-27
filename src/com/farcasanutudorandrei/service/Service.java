@@ -10,13 +10,15 @@ import java.sql.SQLException;
 
 public class Service {
     private static final Service instance = new Service();
-    private ConnectionManager conMan= ConnectionManager.getInstance();
+    private ConnectionManager conMan = ConnectionManager.getInstance();
 
     private Service() {
     }
+
     public static Service getInstance() {
         return instance;
     }
+
     private DepartmentRepository departmentRepository = new DepartmentRepository();
     private EmployeeRepository employeeRepository = new EmployeeRepository();
     private JobRepository jobRepository = new JobRepository();
@@ -55,7 +57,7 @@ public class Service {
         return departmentRepository.get(id);
     }
 
-    public int getDepartmentSize(){
+    public int getDepartmentSize() {
         return departmentRepository.getSize();
     }
 
@@ -99,6 +101,18 @@ public class Service {
         return senderRepository.get(id);
     }
 
+    public void updateSender(Sender entityOld, Sender entityNew) {
+        senderRepository.update(entityOld, entityNew);
+    }
+
+    public void deleteSender(Sender entity) {
+        senderRepository.delete(entity);
+    }
+
+    public Sender getSenderbyDBid(int id) {
+        return senderRepository.findById(id);
+    }
+
     public void updateStation(Station entityOld, Station entityNew) {
         stationRepository.update(entityOld, entityNew);
     }
@@ -110,10 +124,7 @@ public class Service {
     public Station getStationbyDBid(int id) {
         return stationRepository.findById(id);
     }
-//    public Sender getSenderbyDBid(int id) {
-//        TODO: repair this
-//        return senderRepository.getbyDBid(id);
-//    }
+
 
     public int getSenderIndex(Sender name) {
         return senderRepository.getIndex(name);

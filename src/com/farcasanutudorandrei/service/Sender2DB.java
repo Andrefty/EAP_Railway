@@ -69,12 +69,66 @@ public class Sender2DB implements GenericDBIO<Sender>{
 
     @Override
     public Sender update(int id,String column,String value) {
+        PreparedStatement stmt = conMan.ppSt("select * from expeditori where id_expeditor=?");
+        ResultSet rs=null;
+        Sender sender=null;
+        try {
+            stmt.setInt(1,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            rs=stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
 
-        return null;
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error updating Sender in database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        try {
+            rs.first();
+            rs.updateString(column,value);
+            rs.updateRow();
+            sender=new Sender(rs.getInt("id_expeditor"), rs.getString("nume_expeditor"), rs.getString("prenume_expeditor"), rs.getString("email"), rs.getString("CNP"), rs.getString("telefon_expeditor"));
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
+
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error updating column "+column +" of Sender "+ id+ " in database! "+" Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return sender;
     }
 
     @Override
     public void delete(int id) {
+        PreparedStatement stmt = conMan.ppSt("delete from expeditori where id_expeditor=?");
+        try {
+            stmt.setInt(1,id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            stmt.execute();
+            auditService.add("Deleted Sender "+id +" from database");
+        } catch (SQLException e) {
+            System.out.println("SQLState: " +
+                    e.getSQLState());
 
+            System.out.println("Error Code: " +
+                    e.getErrorCode());
+
+            System.out.println("Message: " + e.getMessage());
+            auditService.add("Error deleting Sender "+id +" from database! Message: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -41,22 +41,24 @@ public class Main {
         System.out.println("3. add employee");
         System.out.println("4. list employees");
         System.out.println("5. add job");
-        System.out.println("6. list jobs");
-        System.out.println("7. add parcel");
-        System.out.println("8. list parcels");
-        System.out.println("9. add passenger");
-        System.out.println("10. list passengers");
-        System.out.println("11. add sender");
-        System.out.println("12. list senders");
-        System.out.println("13. add station");
-        System.out.println("14. edit station");
-        System.out.println("15. delete station");
-        System.out.println("16. list stations");
-        System.out.println("17. add ticket");
-        System.out.println("18. list tickets");
-        System.out.println("19. add train");
-        System.out.println("20. list trains");
-        System.out.println("21. show passengers that travel on a given train");
+        System.out.println("6. edit job");
+        System.out.println("7. delete job");
+        System.out.println("8. list jobs");
+        System.out.println("9. add parcel");
+        System.out.println("10. list parcels");
+        System.out.println("11. add passenger");
+        System.out.println("12. list passengers");
+        System.out.println("13. add sender");
+        System.out.println("14. list senders");
+        System.out.println("15. add station");
+        System.out.println("16. edit station");
+        System.out.println("17. delete station");
+        System.out.println("18. list stations");
+        System.out.println("19. add ticket");
+        System.out.println("20. list tickets");
+        System.out.println("21. add train");
+        System.out.println("22. list trains");
+        System.out.println("23. show passengers that travel on a given train");
         System.out.println("99. exit");
     }
 
@@ -91,51 +93,57 @@ public class Main {
                 // add entity
                     addJob();
             case 6 ->
-                // list entities
-                    service.listJobs();
+                // edit entity
+                    editJob();
             case 7 ->
-                // add entity
-                    addParcel();
+                // delete entity
+                    deleteJob();
             case 8 ->
                 // list entities
-                    service.listParcels();
+                    service.listJobs();
             case 9 ->
                 // add entity
-                    addPassenger();
+                    addParcel();
             case 10 ->
                 // list entities
-                    service.listPassengers();
+                    service.listParcels();
             case 11 ->
                 // add entity
-                    addSender();
+                    addPassenger();
             case 12 ->
                 // list entities
-                    service.listSenders();
+                    service.listPassengers();
             case 13 ->
                 // add entity
-                    addStation();
+                    addSender();
             case 14 ->
+                // list entities
+                    service.listSenders();
+            case 15 ->
+                // add entity
+                    addStation();
+            case 16 ->
                 // edit entity
                     editStation();
-            case 15 ->
+            case 17 ->
                 // delete entity
                     deleteStation();
-            case 16 ->
-                // list entities
-                    service.listStations();
-            case 17 ->
-                // add entity
-                    addTicket();
             case 18 ->
                 // list entities
-                    service.listTickets();
+                    service.listStations();
             case 19 ->
                 // add entity
-                    addTrain();
+                    addTicket();
             case 20 ->
                 // list entities
-                    service.listTrains();
+                    service.listTickets();
             case 21 ->
+                // add entity
+                    addTrain();
+            case 22 ->
+                // list entities
+                    service.listTrains();
+            case 23 ->
                 // show passengers that travel on a given train
                     showPassengersOnTrain();
             case 99 -> {
@@ -436,14 +444,13 @@ public class Main {
         service.listStations();
         System.out.println("id_statie=");
         int id_statie = readInt();
-        String column=null;
+        String column = null;
         while (true) {
             System.out.println("Column to update (use column name from database):");
             column = s.nextLine();
-            if(!column.equals("id_statie")){
+            if (!column.equals("id_statie")) {
                 break;
-            }
-            else System.out.println("Invalid column name!");
+            } else System.out.println("Invalid column name!");
         }
         System.out.println("New field value:");
         String value = s.nextLine();
@@ -454,7 +461,7 @@ public class Main {
         }
     }
 
-    private void deleteStation(){
+    private void deleteStation() {
         service.listStations();
         System.out.println("id_statie=");
         int id_statie = readInt();
@@ -630,6 +637,50 @@ public class Main {
 //Verificare ca functioneaza declarari statice        Job2CSV job2csv=Job2CSV.getInstance();
 //        job2csv.testarestatic();
         return id;
+    }
+
+    private void editJob() {
+        service.listJobs();
+        System.out.print("id_functie=");
+        int id_functie = readInt();
+        String column = null;
+        String value = null;
+        while (true) {
+            System.out.println("Column to update (use column name from database):");
+            column = s.nextLine();
+            if (!column.equals("id_functie")) {
+                break;
+            } else System.out.println("Invalid column name!");
+        }
+        if (column.equals("locatie_functie")) {
+            while (true) {
+                System.out.println("New field value:");
+                value = s.nextLine();
+                if (!((value.equals("Remote")) || (value.equals("Onsite")) || (value.equals("Hybrid"))))
+                    System.out.println("Invalid value!");
+                else break;
+            }
+        } else {
+            System.out.println("New field value:");
+            value = s.nextLine();
+        }
+        try {
+            service.updateJob(service.getJobByDBid(id_functie), job2DB.update(id_functie, column, value));
+        } catch (RuntimeException e) {
+            System.out.println("Update error!");
+        }
+    }
+
+    private void deleteJob() {
+        service.listJobs();
+        System.out.print("id_functie=");
+        int id_functie = readInt();
+        try {
+            job2DB.delete(id_functie);
+            service.deleteJob(service.getJobByDBid(id_functie));
+        } catch (RuntimeException e) {
+            System.out.println("Delete error!");
+        }
     }
 
     private int readInt() throws RuntimeException {

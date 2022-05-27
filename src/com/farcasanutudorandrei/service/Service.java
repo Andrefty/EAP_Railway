@@ -63,6 +63,18 @@ public class Service {
         return jobRepository.get(id);
     }
 
+    public void updateJob(Job entityOld, Job entityNew) {
+        jobRepository.update(entityOld, entityNew);
+    }
+
+    public void deleteJob(Job entity) {
+        jobRepository.delete(entity);
+    }
+
+    public Job getJobByDBid(int id) {
+        return jobRepository.findById(id);
+    }
+
     public int getJobSize() {
         return jobRepository.getSize();
     }

@@ -1,6 +1,7 @@
 package com.farcasanutudorandrei.collections;
 
 import com.farcasanutudorandrei.domain.Job;
+import com.farcasanutudorandrei.domain.Station;
 
 import java.util.ArrayList;
 
@@ -39,5 +40,9 @@ public class JobRepository implements GenericRepository<Job> {
     @Override
     public int getIndex(Job entity) {
         return storage.indexOf(entity);
+    }
+
+    public Job findById(int id) {
+        return storage.stream().filter(entity -> entity.getId_job() == id).findFirst().get();
     }
 }

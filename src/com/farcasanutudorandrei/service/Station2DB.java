@@ -60,7 +60,7 @@ public class Station2DB implements GenericDBIO<Station>{
                     e.getErrorCode());
 
             System.out.println("Message: " + e.getMessage());
-            auditService.add("Error adding Station to database! Message: " + e.getMessage());
+            auditService.add("Error loading Stations from database! Message: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
